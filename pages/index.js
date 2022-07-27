@@ -33,25 +33,25 @@ export default function Home() {
       <Head>
         <title>Next.js ToDo List App</title>
       </Head>
-      <div className="w-1/3 m-auto">
-        <h1 className="justify-center p-6 mt-4 text-3xl font-bold text-center text-white bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 font-lato">
+      <div className="p-2 m-auto lg:w-1/3">
+        <h1 className="justify-center p-6 mt-4 font-bold text-center text-white bg-white border border-gray-200 rounded-lg shadow-md text-md lg:text-3xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 font-lato">
           Next.js To Do List
         </h1>
-        <form className="flex justify-center p-6 mt-8 bg-white border border-gray-200 rounded-lg shadow-md">
+        <form className="flex justify-center p-6 mt-8 bg-white border border-gray-200 rounded-lg shadow-md sm:text-sm">
           <input
             type="text"
-            className="justify-center px-1 py-1 mx-2 text-xl border-2 border-gray-600 rounded w-80"
+            className="justify-center p-1 m-1 border-2 border-gray-600 rounded text-md lg:text-xl w-80"
             onChange={handleChange}
             value={userInput}
           />
           <div className="flex">
             <button
-              className="flex px-2 py-1 text-xl font-bold text-white bg-green-500 rounded"
+              className="flex p-1 m-1 font-bold text-white bg-green-500 rounded lg:text-xl lg:px-2 lg:py-1 lg:mx-2 "
               onClick={handleSubmit}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-8 h-8 px-1 text-white"
+                className="hidden w-8 h-8 p-1 text-white 3xl:block 3xl:align-middle"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

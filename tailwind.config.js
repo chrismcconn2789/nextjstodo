@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        "3xl": "1640px",
+      },
       fontFamily: {
         lato: ['"Lato"', "sans-serif"],
       },
