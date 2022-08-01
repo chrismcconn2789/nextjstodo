@@ -3,12 +3,15 @@ import Footer from "../components/Footer";
 import Head from "next/head";
 import { v4 as uuidv4 } from "uuid";
 import cx from "classnames";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const [todoItem, setTodoItem] = useState("");
   const [items, setItems] = useState([]);
+
+  const [parent] = useAutoAnimate();
 
   const handleEnter = (event) => {
     if (event.key === "Enter") {
@@ -94,7 +97,7 @@ export default function Home() {
           id="todolist"
           className="flex items-center justify-center mt-4 text-center"
         >
-          <ul>
+          <ul className="text-lx" ref={parent}>
             {items
               .filter(({ done }) => !done)
               .map(({ id, message }) => (

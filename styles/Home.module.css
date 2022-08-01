@@ -1,6 +1,7 @@
 .item {
   @apply py-3;
   @apply px-5;
+  @apply text-xl;
 }
 
 .item.done {
