@@ -1,5 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&family=Montserrat:wght@400;700&display=swap");
+
+html,
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.item.done {
+  text-decoration: line-through;
+}

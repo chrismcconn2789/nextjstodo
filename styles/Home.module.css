@@ -1,0 +1,9 @@
+.item {
+  @apply py-3;
+  @apply px-5;
+}
+
+.item.done {
+  opacity: 0.5;
+  text-decoration: line-through;
+}

@@ -1,31 +1,57 @@
 import { useState } from "react";
 import Footer from "../components/Footer";
 import Head from "next/head";
+import { v4 as uuidv4 } from "uuid";
+import cx from "classnames";
+
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const [userInput, setUserInput] = useState("");
-  const [todoList, setTodoList] = useState([]);
+  const [todoItem, setTodoItem] = useState("");
+  const [items, setItems] = useState([]);
 
-  const handleChange = (e) => {
-    e.preventDefault();
-
-    setUserInput(e.target.value);
+  const handleEnter = (event) => {
+    if (event.key === "Enter") {
+      handleAdd();
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleAdd = () => {
+    if (todoItem) {
+      setItems([
+        {
+          id: uuidv4(),
+          message: todoItem,
+          done: false,
+        },
+        ...items,
+      ]);
 
-    setTodoList([userInput, ...todoList]);
-
-    setUserInput("");
+      setTodoItem("");
+    }
   };
 
-  const handleDelete = (todo) => {
-    const updatedArry = todoList.filter(
-      (todoItem) => todoList.indexOf(todoItem) != todoList.indexOf(todo)
+  const handleDone = (id) => {
+    const _items = items.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          done: !item.done,
+        };
+      }
+
+      return item;
+    });
+
+    setItems(_items);
+  };
+
+  const handleDelete = (id) => {
+    const updatedArr = items.filter(
+      (idItem) => items.indexOf(idItem) != items.indexOf(id)
     );
 
-    setTodoList(updatedArry);
+    setItems(updatedArr);
   };
 
   return (
@@ -33,82 +59,67 @@ export default function Home() {
       <Head>
         <title>Next.js ToDo List App</title>
       </Head>
-      <div className="p-2 m-auto lg:w-1/3">
-        <h1 className="justify-center p-6 mt-4 font-bold text-center text-white bg-white border border-gray-200 rounded-lg shadow-md text-md lg:text-3xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 font-lato">
-          Next.js To Do List
-        </h1>
-        <form className="flex justify-center p-6 mt-8 bg-white border border-gray-200 rounded-lg shadow-md sm:text-sm">
+      <div>
+        <div id="headers">
+          <h1 className="flex justify-center p-8 text-3xl font-bold text-[#5651ef] shadow-lg w-full mb-8 lg:text-5xl bg-[#519BEF] bg-opacity-25 ">
+            Next.js To Do List
+          </h1>
+          <p className="flex justify-center p-1 text-center text-md">
+            Enter a to do item and click on Add Item or press Enter on your
+            keyboard to add to the list.
+          </p>
+          <p className="flex justify-center p-1 text-center text-md">
+            To toggle complete/incomplete, click on the to do list item.
+          </p>
+        </div>
+        <div id="input" className="flex-col justify-center px-5 text-center">
           <input
+            className="flex-col w-full p-2 mt-5 border border-gray-700 rounded text-md lg:w-1/4"
             type="text"
-            className="justify-center p-1 m-1 border-2 border-gray-600 rounded text-md lg:text-xl w-80"
-            onChange={handleChange}
-            value={userInput}
+            value={todoItem}
+            onChange={(e) => setTodoItem(e.target.value)}
+            onKeyDown={handleEnter}
           />
-          <div className="flex">
-            <button
-              className="flex p-1 m-1 font-bold text-white bg-green-500 rounded lg:text-xl lg:px-2 lg:py-1 lg:mx-2 "
-              onClick={handleSubmit}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="hidden w-8 h-8 p-1 text-white 3xl:block 3xl:align-middle"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>{" "}
-              Add Item
-            </button>
-          </div>
-        </form>
-        <ul className="flex flex-col mt-8 text-2xl text-center">
-          {todoList.length >= 1 ? (
-            todoList.map((todo, idx) => {
-              return (
-                <table key={idx} className="justify-center">
-                  <tr className="justify-between w-auto">
-                    <td className="w-2/3 px-2" key={idx}>
-                      {todo}{" "}
-                    </td>
-                    <td className="w-1/3 px-2">
-                      <div className="inline align-middle">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleDelete(todo);
-                          }}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-6 h-6 text-red-600"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              );
-            })
-          ) : (
-            <span className="text-gray-400">Enter a to do item</span>
-          )}
-        </ul>
+          <button
+            className="flex-col text-white bg-[#A551EF] w-auto mx-5 rounded-lg text-md p-2 m-2 "
+            onClick={handleAdd}
+          >
+            Add Item
+          </button>
+        </div>
+        <p className="flex justify-center mt-4 text-xl font-bold">
+          To Do List Items
+        </p>
+        <div
+          id="todolist"
+          className="flex items-center justify-center mt-4 text-center"
+        >
+          <ul>
+            {items
+              .filter(({ done }) => !done)
+              .map(({ id, message }) => (
+                <li
+                  key={id}
+                  className={cx(styles.item)}
+                  onClick={() => handleDone(id)}
+                >
+                  {message}
+                </li>
+              ))}
+
+            {items
+              .filter(({ done }) => done)
+              .map(({ id, message }) => (
+                <li
+                  key={id}
+                  className={cx(styles.item, styles.done)}
+                  onClick={() => handleDone(id)}
+                >
+                  {message}
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
       <Footer />
     </>
